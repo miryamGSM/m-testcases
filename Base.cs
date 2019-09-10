@@ -7,6 +7,7 @@ using Passport.Models.UserInfo;
 using System.Linq;
 using HodderAuthenticationModule.Context.Models;
 using HodderAuthenticationModule.Models.ViewModels.DataIntegration;
+using Passport.Models.Application;
 using Passport.Models.DataIntegration;
 using Passport.Models.InstitutionInfo;
 
@@ -32,11 +33,19 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
             _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.FirstName == "Changed"), 
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.FirstName == "Changed"),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()), 
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
                 Times.Once, "Only one user updated");
         }
 
@@ -64,11 +73,19 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
             _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "100" && u.FirstName == "First100"), 
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user added.");
+                m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "100" && u.FirstName == "First100"),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>()),
+                Times.Once, "Correct user added.");
 
-            _container.UserAccountServiceMock.Verify(m => m.SaveUser(It.IsAny<PassportUser>(), 
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "No users updated");
+            _container.UserAccountServiceMock.Verify(m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "No users updated");
         }
 
         [Test]
@@ -82,7 +99,10 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "4" && u.UserId == 4 && u.EnrolmentSummary.ClassId == 3),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once);
         }
 
@@ -97,7 +117,10 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "4" && u.UserId == 4 && u.EnrolmentSummary.YearGroupId == 2),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once);
         }
 
@@ -112,11 +135,17 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "10" && u.UserId == 10 && u.EnrolmentSummary.YearGroupId == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once);
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "10" && u.UserId == 10 && u.EnrolmentSummary.ClassId == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once);
         }
 
@@ -129,10 +158,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.PupilPremium == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -147,10 +184,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.PupilPremium == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -163,10 +208,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.ServiceChildren == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -181,10 +234,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.ServiceChildren == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -197,10 +258,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.FreeSchoolMeals == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -215,10 +284,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.FreeSchoolMeals == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -231,10 +308,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.Ever6FreeSchoolMeals == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -249,10 +334,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.Ever6FreeSchoolMeals == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -265,10 +358,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.MoreAble == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -283,10 +384,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.MoreAble == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -299,10 +408,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.TravellerStatus == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -317,10 +434,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.TravellerStatus == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -333,10 +458,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.LookedAfter == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -351,10 +484,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.LookedAfter == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -367,10 +508,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.EverLookedAfter == true),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -385,10 +534,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.EverLookedAfter == false),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -401,10 +558,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.Sen == SenStatus.EducationHealthCarePlan),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -419,10 +584,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.Sen == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -437,10 +610,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.Sen == SenStatus.Statement),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -453,10 +634,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.HomeLanguage == "Scottish"),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -471,10 +660,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.HomeLanguage == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -489,10 +686,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.HomeLanguage == "Welsh"),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -507,10 +712,18 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.UserId == 4 && u.StudentExtendedAttributes.HomeLanguage == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()), Times.Once, "Correct user updated.");
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()), 
+                Times.Once, "Correct user updated.");
 
             _container.UserAccountServiceMock.Verify(
-                m => m.SaveUser(It.IsAny<PassportUser>(), It.IsAny<bool>(), It.IsAny<bool>()),
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Only one user updated");
         }
 
@@ -545,17 +758,96 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "Dup" && u.UserId == 0),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Never, "New user add but should not have been.");
 
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "Dup" && u.UserId == 1000 && u.EnrolmentSummary.YearGroupId == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Student not desynced year group");
             _container.UserAccountServiceMock.Verify(
                 m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "Dup" && u.UserId == 1001 && u.EnrolmentSummary.ClassId == null),
-                    It.IsAny<bool>(), It.IsAny<bool>()),
+                    It.IsAny<ApiApplication>(),
+                    It.IsAny<bool>(),
+                    It.IsAny<bool>(), 
+                    It.IsAny<bool>()),
                 Times.Once, "Student not desynced class");
+        }
+
+        [Test]
+        public void Sync_StudentAddedManually_UserGivenAccessToTargetApplication()
+        {
+            _container.DiStudents.Add(new DiStudent
+            {
+                Id = "100",
+                Gender = "M",
+                YearGroupName = _container.DiYearGroups.Single(yg => yg.Id == "3").Name,
+                IntegratorYearGroupId = _container.DiYearGroups.Single(yg => yg.Id == "3").Id,
+                Upn = "100",
+                CanImport = true,
+                YearCode = _container.DiYearGroups.Single(yg => yg.Id == "3").YearCode,
+                FirstName = "First100",
+                MiddleName = "Middle100",
+                LastName = "Last100",
+                ClassName = _container.DiClasses.Single(yg => yg.Id == "3").Name,
+                IntegratorClassId = _container.DiClasses.Single(yg => yg.Id == "3").Id,
+                MisId = "mis100",
+                MisDateOfBirthAsString = "2000-02-28"
+            });
+
+            _container.RequestInformationMock.SetupGet(m => m.TargetApplicationId)
+                .Returns(ApiApplication.AssessmentPlus);
+
+            _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
+
+            _container.UserAccountServiceMock.Verify(
+                m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "100" && u.FirstName == "First100"),
+                    It.Is<ApiApplication>(a => a == ApiApplication.AssessmentPlus),
+                    It.IsAny<bool>(),
+                    It.Is<bool>(grantAccess => grantAccess == true),
+                    It.IsAny<bool>()),
+                Times.Once, "User given access to target application.");
+        }
+
+        [Test]
+        public void Sync_StudentAddedDuringAutomatedSync_UserNotGivenAccessToPassport()
+        {
+            _container.DiStudents.Add(new DiStudent
+            {
+                Id = "100",
+                Gender = "M",
+                YearGroupName = _container.DiYearGroups.Single(yg => yg.Id == "3").Name,
+                IntegratorYearGroupId = _container.DiYearGroups.Single(yg => yg.Id == "3").Id,
+                Upn = "100",
+                CanImport = true,
+                YearCode = _container.DiYearGroups.Single(yg => yg.Id == "3").YearCode,
+                FirstName = "First100",
+                MiddleName = "Middle100",
+                LastName = "Last100",
+                ClassName = _container.DiClasses.Single(yg => yg.Id == "3").Name,
+                IntegratorClassId = _container.DiClasses.Single(yg => yg.Id == "3").Id,
+                MisId = "mis100",
+                MisDateOfBirthAsString = "2000-02-28"
+            });
+
+            _container.RequestInformationMock.SetupGet(m => m.TargetApplicationId)
+                .Returns(ApiApplication.Passport);
+
+            _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
+
+            _container.UserAccountServiceMock.Verify(
+                m => m.SaveUser(It.Is<PassportUser>(u => u.IntegratorId == "100" && u.FirstName == "First100"),
+                    It.Is<ApiApplication>(a => a == ApiApplication.Passport),
+                    It.IsAny<bool>(),
+                    It.Is<bool>(grantAccess => grantAccess == false),
+                    It.IsAny<bool>()),
+                Times.Once, "User not given access to Passport.");
         }
     }
 }
