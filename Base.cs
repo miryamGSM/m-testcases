@@ -557,5 +557,47 @@ namespace HodderAuthenticationModule.UnitTests.HamService.DataIntegrationTests
                     It.IsAny<bool>(), It.IsAny<bool>()),
                 Times.Once, "Student not desynced class");
         }
+
+        [Test]
+        public void Sync_NoSyncedClasses_ExistingStudentsNotUpdated()
+        {
+            foreach (var passportClass in _container.Classes)
+            {
+                passportClass.IntegratorId = null;
+            }
+
+            foreach (var passportStudent in _container.Students)
+            {
+                passportStudent.IntegratorId = null;
+            }
+
+            var result = _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
+
+            _container.UserAccountServiceMock.Verify(
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<bool>(), It.IsAny<bool>()),
+                Times.Never, "Student updated");
+        }
+
+        [Test]
+        public void Sync_NoSyncedYeargroups_ExistingStudentsNotUpdated()
+        {
+            foreach (var passportYearGroup in _container.YearGroups)
+            {
+                passportYearGroup.IntegratorId = null;
+            }
+
+            foreach (var passportStudent in _container.Students)
+            {
+                passportStudent.IntegratorId = null;
+            }
+
+            var result = _container.StudentDataIntegrator.Sync(_container.DataIntegratorConnection);
+
+            _container.UserAccountServiceMock.Verify(
+                m => m.SaveUser(It.IsAny<PassportUser>(),
+                    It.IsAny<bool>(), It.IsAny<bool>()),
+                Times.Never, "Student updated");
+        }
     }
 }
